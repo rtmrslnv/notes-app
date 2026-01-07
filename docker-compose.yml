@@ -14,8 +14,6 @@ services:
     image: postgres:18-alpine
     env_file:
       - postgres.env
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -24,3 +22,4 @@ services:
 
 volumes:
   pgdata:
+    - /opt/nodes-db-data:/var/lib/postgresql/data
