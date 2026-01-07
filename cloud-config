@@ -1,0 +1,23 @@
+#cloud-config
+fs_setup:
+  - device: /dev/vdb
+    filesystem: ext4
+    label: DATA
+    overwrite: True
+
+mounts:
+  - [ /dev/vdb, /opt/notes-db-data, ext4, "defaults,nofail", "0", "2" ]
+
+runcmd:
+  - cd /opt
+  - git clone https://github.com/rtmrslnv/notes-app.git
+  - cd ./notes-app
+  - echo "DATABASE_URL=postgresql://postgres:CHANGEME@db:5432/notes_db" > app.env
+  - echo "SECRET_KEY=CHANGEME" >> app.env
+  - echo "POSTGRES_DB=notes_db" > postgres.env
+  - echo "POSTGRES_USER=postgres" >> postgres.env
+  - echo "POSTGRES_PASSWORD=CHANGEME" >> postgres.env
+  - sed -i 's/BUCKET_NAME/notes-static-bucket/g' ./app/templates/base.html
+  - mkdir /opt/notes-db-data/pg_data
+  - /usr/bin/docker compose build
+  - /usr/bin/docker compose up -d
