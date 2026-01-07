@@ -15,7 +15,7 @@ services:
     env_file:
       - postgres.env
     volumes:
-      - /opt/nodes-db-data:/var/lib/postgresql/data
+      - /opt/notes-db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
