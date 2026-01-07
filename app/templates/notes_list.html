@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <ul class="notes-list">
+    {% for n in notes %}
+    <li>
+      <div class="note-left">
+        <div class="note-badge">{{ n.title[:1]|upper }}</div>
+        <div>
+          <a class="note-title" href="{{ url_for('notes.view_note', note_id=n.id) }}">{{ n.title or "Без названия" }}</a>
+          <div class="note-meta small">{{ n.created_at }}</div>
+        </div>
+      </div>
+      <div class="controls">
+        <a class="btn btn-ghost" href="{{ url_for('notes.edit_note', note_id=n.id) }}">Ред.</a>
+        <form action="{{ url_for('notes.delete_note', note_id=n.id) }}" method="post" style="display:inline">
+          <button class="btn btn-danger" type="submit">Удалить</button>
+        </form>
+      </div>
+    </li>
+    {% else %}
+    <li class="small">Заметок нет.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

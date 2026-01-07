@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin-top:0;">{{ note.id and "Редактировать" or "Новая заметка" }}</h2>
+
+  {% if error %}
+    <div class="small" style="color:var(--danger); margin-bottom:10px;">{{ error }}</div>
+  {% endif %}
+
+  <form method="post">
+    <label class="label">Название</label>
+    <input name="title" placeholder="Название" value="{{ note.title or '' }}" required>
+
+    <label class="label" style="margin-top:8px;">Содержание</label>
+    <textarea name="content" placeholder="Содержание">{{ note.content or '' }}</textarea>
+
+    <label class="label" style="margin-top:8px;">Теги (через запятую)</label>
+    <input name="tags" placeholder="тег1, тег2" value="{{ note.tags or '' }}">
+
+    <div style="margin-top:12px;" class="actions">
+      <button class="btn btn-primary" type="submit">Сохранить</button>
+      <a class="btn btn-ghost" href="{{ url_for('notes.list_notes') }}">Отмена</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
